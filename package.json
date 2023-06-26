@@ -1,0 +1,23 @@
+{
+  "name": "note-taking-backend",
+  "version": "1.0.0",
+  "description": "Coder Academy OCT22 STD code along. Backend of a note taking app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnsonw1017/note-taking-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnsonw1017/note-taking-backend/issues"
+  },
+  "homepage": "https://github.com/johnsonw1017/note-taking-backend#readme",
+  "devDependencies": {
+    "express": "^4.18.2"
+  }
+}
