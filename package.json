@@ -21,5 +21,8 @@
   "homepage": "https://github.com/johnsonw1017/note-taking-backend#readme",
   "devDependencies": {
     "express": "^4.18.2"
+  },
+  "dependencies": {
+    "mongoose": "^7.3.1"
   }
 }
