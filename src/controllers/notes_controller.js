@@ -1,9 +1,9 @@
 const Note = require("../models/notes");
 
-const getNotes = (request, response) => {
-    response.json( {
-        message: "The list of notes goes here"
-    })
+const getNotes = async (request, response) => {
+
+    let notes = await Note.find();
+    response.json({notes: notes});
 }
 
 const createNotes = async (request, response) => {
@@ -16,10 +16,20 @@ const createNotes = async (request, response) => {
     });
 
     await newNote.save();
-    response.json({note: newNote});
+    
+    response.status(201).json({note: newNote});
+}
+
+const deleteAllNotes = async (request, response) => {
+
+    await Note.deleteMany({});
+    response.json({
+        message: "all notes deleted"
+    });
 }
 
 module.exports = {
     getNotes,
-    createNotes
+    createNotes,
+    deleteAllNotes
 }
