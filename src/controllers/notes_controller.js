@@ -40,9 +40,24 @@ const deleteAllNotes = async (request, response) => {
     });
 }
 
+const deleteNote = async (request, response) => {
+    //find note by id then delete note
+
+    try {
+        await Note.findByIdAndDelete(request.params.id)
+        response.json({
+            message: "note deleted"
+        });
+    } catch (error) {
+        response.status(404).send({error: error});
+        console.error(`Error while accessing data. ${error}`)
+    }
+}
+
 module.exports = {
     getNotes,
     getNote,
     createNotes,
-    deleteAllNotes
+    deleteAllNotes,
+    deleteNote
 }
