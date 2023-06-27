@@ -6,6 +6,18 @@ const getNotes = async (request, response) => {
     response.json({notes: notes});
 }
 
+const getNote = async (request, response) => {
+
+    try {
+        let note = await Note.findById(request.params.id); // also can do .catch(error => {}) in this line
+        response.send(note);
+    } catch (error) {
+        response.status(404).send({error: error});
+        console.error(`Error while accessing data. Error: ${error}`)
+    }
+    
+}
+
 const createNotes = async (request, response) => {
     let newNote = new Note({
         title: request.body.title,
@@ -30,6 +42,7 @@ const deleteAllNotes = async (request, response) => {
 
 module.exports = {
     getNotes,
+    getNote,
     createNotes,
     deleteAllNotes
 }
