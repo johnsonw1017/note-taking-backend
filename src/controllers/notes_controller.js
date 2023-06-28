@@ -13,7 +13,7 @@ const getNote = async (request, response) => {
         response.send(note);
     } catch (error) {
         response.status(404).send({error: error});
-        console.error(`Error while accessing data. Error: ${error}`)
+        console.error(`Error while accessing data. Error: ${error}`);
     }
     
 }
@@ -30,6 +30,17 @@ const createNotes = async (request, response) => {
     await newNote.save();
     
     response.status(201).json({note: newNote});
+}
+
+const updateNote = async (request, response) => {
+
+    try {
+        let updatedNote = await Note.findByIdAndUpdate(request.params.id, request.body, {new: true}); //set new: true to receive the updated note
+        response.send(updatedNote);
+    } catch (error) {
+        response.status(404).send({error: error});
+        console.error(`Error while accessing data. ${error}`);
+    }
 }
 
 const deleteAllNotes = async (request, response) => {
@@ -50,7 +61,7 @@ const deleteNote = async (request, response) => {
         });
     } catch (error) {
         response.status(404).send({error: error});
-        console.error(`Error while accessing data. ${error}`)
+        console.error(`Error while accessing data. ${error}`);
     }
 }
 
@@ -58,6 +69,7 @@ module.exports = {
     getNotes,
     getNote,
     createNotes,
+    updateNote,
     deleteAllNotes,
     deleteNote
 }
