@@ -1,9 +1,16 @@
 const Note = require("../models/notes");
 
 const getNotes = async (request, response) => {
+    // request.query is an object
+    let notes;
 
-    let notes = await Note.find();
-    response.json({notes: notes});
+    //query string would only work for isCompleted (true or false)
+    if (request.query.isCompleted === "true" || request.query.isCompleted === "false"){
+        notes = await Note.find({isCompleted: request.query.isCompleted});
+    } else {
+        notes = await Note.find();
+    }
+    response.send(notes);
 }
 
 const getNote = async (request, response) => {
