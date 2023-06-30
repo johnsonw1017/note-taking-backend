@@ -14,6 +14,12 @@ const getNotes = async (request, response) => {
     response.send(notes);
 }
 
+const getMyNotes = async (request, response) => {
+    //find user by username
+    let user = await User.findOne({username: request.body.username}).populate("notes");
+    response.send(user.notes)
+}
+
 const getNote = async (request, response) => {
     try {
         let note = await Note.findById(request.params.id); // also can do .catch(error => {}) in this line
@@ -26,7 +32,6 @@ const getNote = async (request, response) => {
 }
 
 const createNotes = async (request, response) => {
-    
     let user = await User.findOne({username: request.body.username});
     let newNote = new Note({
         title: request.body.title,
@@ -83,6 +88,7 @@ const deleteNote = async (request, response) => {
 module.exports = {
     getNotes,
     getNote,
+    getMyNotes,
     createNotes,
     updateNote,
     deleteAllNotes,
