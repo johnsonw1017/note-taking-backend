@@ -1,4 +1,5 @@
 const Note = require("../models/notes");
+const User = require("../models/user");
 
 const getNotes = async (request, response) => {
     // request.query is an object
@@ -14,7 +15,6 @@ const getNotes = async (request, response) => {
 }
 
 const getNote = async (request, response) => {
-
     try {
         let note = await Note.findById(request.params.id); // also can do .catch(error => {}) in this line
         response.send(note);
@@ -26,6 +26,8 @@ const getNote = async (request, response) => {
 }
 
 const createNotes = async (request, response) => {
+    
+    let user = await User.findOne({username: request.body.username});
     let newNote = new Note({
         title: request.body.title,
         description: request.body.description,
@@ -33,10 +35,16 @@ const createNotes = async (request, response) => {
         dueDate: new Date().setDate(new Date().getDate() + 1),
         createdAtDate: Date.now()
     });
-
     await newNote.save();
-    
-    response.status(201).json({note: newNote});
+
+    try {
+        user.notes.push(newNote._id);
+        await user.save();
+    } catch (error) {
+        response.status(404).send({message: "user does not exist"})
+    }
+
+    response.status(201).json({user: user, note: newNote});
 }
 
 const updateNote = async (request, response) => {
