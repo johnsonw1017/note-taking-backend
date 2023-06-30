@@ -72,12 +72,15 @@ const deleteAllNotes = async (request, response) => {
 }
 
 const deleteNote = async (request, response) => {
+    let user = await User.findOne({username: request.body.username});
     //find note by id then delete note
 
     try {
-        await Note.findByIdAndDelete(request.params.id)
+        await Note.findByIdAndDelete(request.params.id);
+        user.notes.shift(request.params.id);
         response.json({
-            message: "note deleted"
+            message: "note deleted",
+            user: user
         });
     } catch (error) {
         response.status(404).send({error: error});
