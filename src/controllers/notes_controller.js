@@ -36,8 +36,8 @@ const createNotes = async (request, response) => {
     let newNote = new Note({
         title: request.body.title,
         description: request.body.description,
-        isCompleted: false,
-        dueDate: new Date().setDate(new Date().getDate() + 1),
+        isCompleted: request.body.isCompleted,
+        dueDate: request.body.dueDate,
         createdAtDate: Date.now()
     });
     await newNote.save();
@@ -49,7 +49,7 @@ const createNotes = async (request, response) => {
         response.status(404).send({message: "user does not exist"})
     }
 
-    response.status(201).json({user: user, note: newNote});
+    response.status(201).json({newNote});
 }
 
 const updateNote = async (request, response) => {
